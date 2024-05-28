@@ -26,13 +26,7 @@ public class Libro {
         this.descargas = datosLibro.descargas() != null ? datosLibro.descargas().doubleValue() : null;
     }
 
-    @Override
-    public String toString() {
-        return
-                "Título: " + titulo + "\n" + "Autor: " + autor.getNombre() + "\n" +
-                "Idioma: " + idioma + "\n" +
-                "Descargas: " + descargas + "\n";
-    }
+
 
     public Long getId() {
         return id;

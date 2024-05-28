@@ -51,6 +51,12 @@ public class Principal {
                     case 1:
                         buscarLibroPorTitulo();
                         break;
+                    case 2:
+                        listarLibrosRegistrados();
+                        break;
+                    case 3:
+                        listarAutoresRegistrados();
+                        break;
 
                     case 0:
                         System.out.println("Hasta la próxima");
@@ -141,5 +147,28 @@ public class Principal {
         } else {
             System.out.println("libro no encontrado");
         }
+    }
+
+    public void listarLibrosRegistrados(){
+        List<Libro> libros = iLibroRepository.buscarListaDeLibros();
+        libros.forEach(l -> System.out.println(
+                "----- LIBRO -----" +
+                        "\nTitulo: " + l.getTitulo() +
+                        "\nAutor: " + l.getAutor().getNombre() +
+                        "\nIdioma: " + l.getIdioma()+
+                        "\nNumero de descargas: " + l.getDescargas() +
+                        "\n-----------------\n"
+        ));
+    }
+
+    public void listarAutoresRegistrados(){
+        List<Autor> autores = iAutorRepository.buscarListaDeAutores();
+        autores.forEach(l-> System.out.println(
+                "Autor: " + l.getNombre() +
+                        "\nFecha de nacimiento: " + l.getNacimiento() +
+                        "\nFecha de fallecimiento: " + l.getMuerte() +
+                        "\nLibros: " + l.getLibros().stream()
+                        .map(t -> t.getTitulo()).collect(Collectors.toList()) + "\n"
+        ));
     }
 }

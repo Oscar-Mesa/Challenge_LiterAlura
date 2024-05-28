@@ -11,4 +11,8 @@ import java.util.Optional;
 public interface IAutorRepository extends JpaRepository<Autor,Long> {
     @Query("SELECT a FROM Autor a WHERE a.nombre = :nombre")
     Optional<Autor> buscarAutorPorNombre(String nombre);
+
+    @Query("SELECT a FROM Autor a")
+    List<Autor> buscarListaDeAutores();
+
 }

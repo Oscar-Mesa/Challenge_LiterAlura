@@ -13,7 +13,6 @@ public interface ILibroRepository extends JpaRepository<Libro,Long> {
     @Query("SELECT l FROM Libro l WHERE l.titulo = :titulo")
     List<Libro> buscarLibroPorTitulo(String titulo);
 
-    @Query("SELECT l FROM Libro l WHERE l.titulo = :titulo AND l.autor = :autor")
-    List<Libro> buscarLibroPorTituloYAutor(String titulo, Autor autor);
-
+    @Query("SELECT l FROM Libro l")
+    List<Libro> buscarListaDeLibros();
 }
