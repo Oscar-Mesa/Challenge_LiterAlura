@@ -59,8 +59,10 @@ public class Principal {
                         break;
                     case 4:
                         mostrarAutoresVivosPorAnio();
+                        break;
                     case 5:
                         mostrarLibrosIdioma();
+                        break;
                     case 0:
                         System.out.println("Hasta la próxima");
                         break;
