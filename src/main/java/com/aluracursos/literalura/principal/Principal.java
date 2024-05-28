@@ -52,21 +52,24 @@ public class Principal {
                         buscarLibroPorTitulo();
                         break;
                     case 2:
-                        listarLibrosRegistrados();
+                        mostrarLibrosRegistrados();
                         break;
                     case 3:
-                        listarAutoresRegistrados();
+                        mostrarAutoresRegistrados();
                         break;
-
+                    case 4:
+                        mostrarAutoresVivosPorAnio();
+                    case 5:
+                        mostrarLibrosIdioma();
                     case 0:
                         System.out.println("Hasta la próxima");
                         break;
                     default:
-                        System.out.println("Opcion no valida!");
+                        System.out.println("Opción invalida");
                         break;
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Opcion no valida: " + e.getMessage());
+                System.out.println("Solo se reciben números en el menú");
 
             }
         }
@@ -149,7 +152,7 @@ public class Principal {
         }
     }
 
-    public void listarLibrosRegistrados(){
+    public void mostrarLibrosRegistrados(){
         List<Libro> libros = iLibroRepository.buscarListaDeLibros();
         libros.forEach(l -> System.out.println(
                 "----- LIBRO -----" +
@@ -161,7 +164,7 @@ public class Principal {
         ));
     }
 
-    public void listarAutoresRegistrados(){
+    public void mostrarAutoresRegistrados(){
         List<Autor> autores = iAutorRepository.buscarListaDeAutores();
         autores.forEach(l-> System.out.println(
                 "Autor: " + l.getNombre() +
@@ -171,4 +174,52 @@ public class Principal {
                         .map(t -> t.getTitulo()).collect(Collectors.toList()) + "\n"
         ));
     }
+
+    public void mostrarAutoresVivosPorAnio(){
+        System.out.println("Ingrese el año vivo del autor(es) que desea buscar:");
+        Integer anio =Integer.valueOf(teclado.nextLine());
+        List<Autor> autoresVivos = iAutorRepository.buscarListaDeAutoresVivos(anio);
+        if(!autoresVivos.isEmpty()){
+            System.out.println();
+            autoresVivos.forEach(a -> System.out.println(
+                    "Autor: " + a.getNombre() +
+                            "\nFecha de nacimiento: " + a.getNacimiento() +
+                            "\nFecha de fallecimiento: " + a.getMuerte() +
+                            "\nLibros: " + a.getLibros().stream()
+                            .map(l -> l.getTitulo()).collect(Collectors.toList()) + "\n"
+            ));
+        } else{
+            System.out.println("No se encuentra registro de autores vivos en ese año");
+        }
+    }
+
+    public void mostrarLibrosIdioma(){
+        System.out.println("""
+                Ingrese el idioma para buscar los libros:
+                es - español
+                en - inglés
+                fr - francés
+                pt - portugués""");
+        String libroIdioma = teclado.nextLine().trim().toLowerCase();
+        switch (libroIdioma) {
+            case "es":
+            case "en":
+            case "fr":
+            case "pt":
+                List<Libro> idioma = iLibroRepository.buscarLibroIdioma(libroIdioma);
+                idioma.forEach(l -> System.out.println(
+                        "----- LIBRO -----" +
+                                "\nTitulo: " + l.getTitulo() +
+                                "\nAutor: " + l.getAutor().getNombre() +
+                                "\nIdioma: " + l.getIdioma() +
+                                "\nNumero de descargas: " + l.getDescargas() +
+                                "\n-----------------\n"
+                ));
+                break;
+            default:
+                System.out.println("Idioma no soportado");
+                break;
+        }
+    }
+
 }

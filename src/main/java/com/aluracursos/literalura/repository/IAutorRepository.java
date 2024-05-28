@@ -15,4 +15,7 @@ public interface IAutorRepository extends JpaRepository<Autor,Long> {
     @Query("SELECT a FROM Autor a")
     List<Autor> buscarListaDeAutores();
 
+    @Query("SELECT a FROM Autor a WHERE a.nacimiento <= :anio AND (a.muerte IS NULL OR a.muerte > :anio)")
+    List<Autor>buscarListaDeAutoresVivos(Integer anio);
+
 }
